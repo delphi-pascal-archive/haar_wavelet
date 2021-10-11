@@ -1,0 +1,126 @@
+-----------------------------------------------------
+HAAR WAVELET V.0.6b (C)2K2 BY THE TOXIC AVENGER/AINC.
+-----------------------------------------------------
+
+------------
+INTRODUCTION
+------------
+
+Haar Wavelet is a simple (delphi-)program to
+create Wavelet-compressed pictures..
+
+The resulting files can be used with delphi
+or fpc by including the haar wavelet-unit
+("wave.pas") also included in this package..
+
+The Wavelet-compression itself is a new
+technology and will have its Introduction
+inside the JPEG2000-Standard..
+Haar Wavelet uses the "simplest" =) Wavelet
+(Normalized Haar) to achieve lossy compression,
+along with YUV-colorspace-conversion, a
+RunLengthEncoder and variable use of Quantizer-Bits..
+(and since v.0.5b an enhanced (but faked)
+ Haar Wavelet algorithm.. 8-)
+
+The included hwltest.bmp/hwltest.jpg/hwltest.hwl
+can be used to compare the results of nowadays jpeg
+against the haar wavelet encoder and the original pic..
+(the .hwl is of course 2k bigger then the .jpg,
+ but including both files to a .zip/.rar/.lha/..
+ makes them equally sized!)
+
+-----
+USAGE
+-----
+
+Just load a BMP-File into the prog and
+play with the parameters..
+
+For optimal (size/quality-)results you
+should follow the next steps:
+1.Increase the Quantizer Bits to "8"/"4"
+  Decrease the Coefficient Epsilon to "0"
+  Increase the Subdivision Depth to its Maximum
+2.Increase the Coefficient Epsilon until
+  the picture seems to get "blocky"/"washed out"
+  (or until you think its enough =)
+3.Decrease the Quantizer Bits (UV can mostly be
+  a lot smaller then Y!) until you notice
+  variations in the Color-Accuracy
+4.Done!
+
+(btw: The program works best with pictures
+ of size 2^n/2^m (f.e. 256x256 or 128x64))
+(btw2: choosing a high Coefficient Epsilon (>"50")
+ you should ALWAYS set the Quantizer Bits to "8"/"8"
+ for optimal compression)
+
+To include the pictures in your delphi/fpc
+project take a look at "DelpTest.pas"/"FpcTest.pas"..
+
+----
+MISC
+----
+
+The Stream functions have been added by Armindo aka ADS)
+
+Feel free to use, enhance or even learn about this code..
+If you like it, please drop a message to:
+
+ toxie@ainc.de
+
+Your opininons, optimizations and enhancements will
+influence the further development of Haar Wavelet..
+
+To get the newest version of Haar Wavelet surf to:
+
+ http://ainc.de
+
+(Contains also lots of other interesting =) things..)
+
+so long..
+ carsten aka toxic avenger/ainc.
+
+-------
+HISTORY
+-------
+
+-v.0.5:  First Public Release..
+
+-v.0.5b: added a little 'trick' to the DeWaveletGS-Routine..
+         it's based upon the idea of more complex wavelets, which
+         try to filter more "information" (-> pixeldata) into
+         single low/high-pass coefficients..
+         the 'trick' in my routine uses an idea i adopted from
+         alan watt's article about wavelets in his "3d games vol.1"-book..
+         he uses linear interpolation of the transformed coefficients
+         (-> results in an effect like gouraud shading =)
+         together with a (progressive) quadtree representation of the coefficient data..
+         DeWaveletGS simulates (read: "fakes" ;) this effect by interpolating
+         between the low-pass coefficients (if the related high-pass coefficient=0.0 (-> kicked data))..
+
+         Result: Amazing Quality Improvement! (-> CHECK IT OUT! 8-)
+         Best Thing: All previously stored .hwl-files remain valid.. 
+
+         (Search for //!UPDATED in the source)
+
+-v.0.6:  added YUV-color-model..
+         the picture is converted into YUV before the wavelet transformation..
+         YUV allows to store more bits for the luminancy
+         of the picture (Y) and needs less bits for the color
+         information (U/V).. "without" quality loss.. (the human
+         eye can't recognize the pixel artefacts as easy as before ;)
+
+         it's converted back into RGB during loading..
+         so the header has been changed (two more bytes added!)
+         and the old (<v.0.6) .hwl-files can't be used anymore.. :(
+
+         Result: More Quality at Higher Compression Rates!
+         Bad Thing: due to "lame coding" =) the source-code
+                    isn't as readable as before.. :(
+
+-v.0.6(++): improved RLE compression by using two additional bits for Zero-Packing..
+
+-v.0.6b: improved decompression speed a bit by optimizing the main loops with yucky code..
+         added Stream functions (coded by Armindo aka ADS)
